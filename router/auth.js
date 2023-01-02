@@ -135,69 +135,69 @@ router.post("/login", async (req, resp) => {
 });
 // forgot password [send password by mail generated password]
 
-// router.post("/forgot_password", async (req, res) => {
-//   const {Email, _id} = req.body;
-//   if (!Email) {
-//     return res.status(400).json({error: "Plaese enter Email"});
-//   }
-//   if (!_id) {
-//     return res.status(400).json({error: "Plaese enter _id"});
-//   }
-//   const userLogin = await User.findOne({Email: Email});
-//   const useid = await User.findOne({_id: _id});
+router.post("/forgot_password_gernated", async (req, res) => {
+  const {Email, _id} = req.body;
+  if (!Email) {
+    return res.status(400).json({error: "Plaese enter Email"});
+  }
+  if (!_id) {
+    return res.status(400).json({error: "Plaese enter _id"});
+  }
+  const userLogin = await User.findOne({Email: Email});
+  const useid = await User.findOne({_id: _id});
 
-//   if (userLogin.Email == Email) {
-//     var passwordff = generator.generate({
-//       length: 10,
-//       numbers: true,
-//     });
-//     // gernated password  send on database this same user
-//   }
-//   if (useid._id == _id) {
-//     const udata = await User.findByIdAndUpdate(
-//       {_id: useid._id},
-//       {
-//         $set: {
-//           Password: passwordff,
-//         },
-//       }
-//     );
-//     // Email
+  if (userLogin.Email == Email) {
+    var passwordff = generator.generate({
+      length: 10,
+      numbers: true,
+    });
+    // gernated password  send on database this same user
+  }
+  if (useid._id == _id) {
+    const udata = await User.findByIdAndUpdate(
+      {_id: useid._id},
+      {
+        $set: {
+          Password: passwordff,
+        },
+      }
+    );
+    // Email
 
-//     var transporter = nodemailer.createTransport({
-//       service: "gmail",
-//       auth: {
-//         user: "amit.primotech@gmail.com",
-//         pass: "qzauvcsnusepmlxt",
-//       },
-//     });
+    var transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "amit.primotech@gmail.com",
+        pass: "qzauvcsnusepmlxt",
+      },
+    });
 
-//     var mailOptions = {
-//       from: "amit.primotech@gmail.com",
-//       to: `amit.primotech@gmail.com`,
-//       subject: "Password generated",
-//       text: `Dear ${userLogin.Name}
-//   your new password is  ${passwordff}
-//   `,
-//     };
+    var mailOptions = {
+      from: "amit.primotech@gmail.com",
+      to: `amit.primotech@gmail.com`,
+      subject: "Password generated",
+      text: `Dear ${userLogin.Name}
+  your new password is  ${passwordff}
+  `,
+    };
 
-//     transporter.sendMail(mailOptions, function (error, info) {
-//       if (error) {
-//         console.log(error);
-//       } else {
-//         console.log("Email sent: " + info.response);
-//       }
-//     });
-//   }
-//   res.json({
-//     // Email: userLogin.Email,
-//     // status: 1,
-//     // is_data_matched: true,
-//     message: `Your Password has been generated. Please check your register mail id  ${userLogin.Email}`,
-//     // password: passwordff,
-//     // id:useid._id
-//   });
-// });
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    });
+  }
+  res.json({
+    // Email: userLogin.Email,
+    // status: 1,
+    // is_data_matched: true,
+    message: `Your Password has been generated. Please check your register mail id  ${userLogin.Email}`,
+    // password: passwordff,
+    // id:useid._id
+  });
+});
 
 router.post("/forgot_password", async (req, res) => {
   const {Email} = req.body;
@@ -284,7 +284,7 @@ router.post("/reset_password", async (req, res) => {
   });
 
   res.json({
-
+    status:1,
     message: `Password updated`,
   });
 });
